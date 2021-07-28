@@ -1,0 +1,6 @@
+name = input()
+agent = int(input())
+client = list(input().split())
+client.append(name)
+client.sort()
+print(int(client.index(name)//agent)*20 + 20)
