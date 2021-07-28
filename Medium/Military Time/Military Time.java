@@ -1,20 +1,21 @@
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Locale;
 import java.util.Scanner;
 
-public final class MilitaryTime {
+public class MilitaryTimeRE {
     public static void main(String[] args) {
-        final var scanner = new Scanner(System.in);
-        final var usTime = scanner.nextLine();
-        
-        final var formatter = DateTimeFormatter
-                .ofLocalizedTime(FormatStyle.SHORT)
-                .withLocale(Locale.US);
+        final var input = new Scanner(System.in);
 
-        final var euTime = LocalTime.parse(usTime, formatter);
-        System.out.println(euTime);
+        input.findInLine("(\\d?\\d):(\\d\\d) (A|P)M");
+        final var usTime = input.match();
+
+        var hours = Integer.valueOf(usTime.group(1));
+        final var minutes = usTime.group(2);
+        final var indicator = usTime.group(3).charAt(0);
+
+        if (indicator == 'P') {
+            hours += 12;
+        } else if (hours == 12) {
+            hours = 0;
+        }
+        System.out.printf("%02d:%s", hours, minutes);
     }
 }
-© 2021 GitHub, Inc.
